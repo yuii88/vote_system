@@ -98,3 +98,11 @@ class VoteDB:
         """
         self.conn.execute(query, (topic_id,choice_name,0))
         self.conn.commit()
+        
+    def vote(self, choice_id, topic_id):
+        query = """
+        UPDATE Votes SET choice_count = choice_count + 1
+        WHERE topic = ? and id = ?
+        """
+        self.conn.execute(query, (topic_id, choice_id))
+        self.conn.commit()
