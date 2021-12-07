@@ -38,11 +38,11 @@ def add_new_topic():
 def new_topic():
     return render_template('newtopic.html')
 
-# @app.route('/topic/<topic_id>')
-# def get_topic_page(topic_id):
-#     topic_data = topics[topic_id]
-#     #print(topic_data)
-#     return render_template('topic.html',topic_id=topic_id,topic=topic_data)
+@app.route('/topic/<topic_id>')
+def get_topic_page(topic_id):
+    topic_data,topic_name = db.get_topic(topic_id)
+    print(topic_data)
+    return render_template('topic.html',topic_id=topic_id,topic=topic_data,topic_name=topic_name)
 
 # @app.route('/topic/<topic_id>/newChoice', methods=["POST"])
 # def vote_for_topic(topic_id):

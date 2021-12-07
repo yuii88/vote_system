@@ -62,3 +62,33 @@ class VoteDB:
                 "topic_name": data[1]
             })
         return ret
+    
+    def get_topic(self,topic_id):
+        """
+        (
+            [
+                (vote_id, choice_name, choice_count)
+            ]
+            topic_name
+        )
+        """
+        topic_name_query = """
+        SELECT name FROM Topics
+        WHERE Topics.id = ?
+        """
+        topic_name_result = self.conn.execute(topic_name_query, (topic_id,)).fetchone() # ('topic', ) ##fetchone แปลว่า ต้องการแค่ result เดียว
+        topic_name = topic_name_result[0]
+        query = """
+        SELECT id, choice_name, choice_count
+        FROM Votes v
+        WHERE v.topic = ?
+        """
+        result = self.conn.execute(query,(topic_id,))
+        ret = []
+        for data in result:
+            cid, cname, ccount = data
+            ret.append((cid, cname, ccount))
+        return ret,topic_name
+    
+    def add_choice(self, choice_name, topic_id):
+        

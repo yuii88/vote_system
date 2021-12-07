@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>Topic {{topic['name']}}</title>
+        <title>Topic {{topic_name}}</title>
         <link rel="stylesheet" type="text/css" href="../static/index.css">
     </head>
     <body>
-        <a href="/"><</a><h1>Vote for {{topic['name']}}</h1>
+        <a href="/"><</a><h1>Vote for {{topic_name}}</h1>
         <form action="/topic/{{topic_id}}/newChoice" method="post">
             <label for="{{choice_name}}">New Choice</label>
             <input type="text" id="choice_name" name="choice_name">
@@ -17,7 +17,7 @@
                 <th>Vote</th>
                 <th>Action</th>
             </tr>
-            {% for choice_name, count in topic['data'].items() %}
+            {% for cid, choice_name, count in topic %}
             <tr>
                 <td>{{loop.index}}</td>
                 <td>{{choice_name}}</td>
