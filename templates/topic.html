@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Topic {{topic['name']}}</title>
+        <link rel="stylesheet" type="text/css" href="../static/index.css">
+    </head>
+    <body>
+        <a href="/"><</a><h1>Vote for {{topic['name']}}</h1>
+        <form action="/topic/{{topic_id}}/newChoice" method="post">
+            <label for="{{choice_name}}">New Choice</label>
+            <input type="text" id="choice_name" name="choice_name">
+            <button type="submit">Add</button>
+        </form>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Choice</th>
+                <th>Vote</th>
+                <th>Action</th>
+            </tr>
+            {% for choice_name, count in topic['data'].items() %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{choice_name}}</td>
+                <td>{{count}}</td>
+                <td>
+                    <form action="/topic/{{topic_id}}/vote" method="post">
+                        <input type="hidden" name="choice_name" id="choice" value="{{choice_name}}">
+                        <button type="submit">Vote</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        
+        </table>
+    </body>
+</html>
