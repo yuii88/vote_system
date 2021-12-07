@@ -44,12 +44,12 @@ def get_topic_page(topic_id):
     print(topic_data)
     return render_template('topic.html',topic_id=topic_id,topic=topic_data,topic_name=topic_name)
 
-# @app.route('/topic/<topic_id>/newChoice', methods=["POST"])
-# def vote_for_topic(topic_id):
-#     choice_name = request.form.get('choice_name')
-#     topics[topic_id]['data'][choice_name] = 0
-#     #print(topics)
-#     return redirect(f'/topic/{topic_id}')
+@app.route('/topic/<topic_id>/newChoice', methods=["POST"])
+def new_choice(topic_id):
+    cname = request.form.get('choice_name')
+    db.add_choice(choice_name=cname, topic_id=topic_id)
+    #print(cname)
+    return redirect(f'/topic/{topic_id}')
 
 # @app.route('/topic/<topic_id>/vote', methods=["POST"])
 # def vote_topic(topic_id):
