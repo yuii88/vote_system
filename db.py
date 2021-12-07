@@ -16,7 +16,7 @@ class VoteDB:
         );"""
         create_vote_query = """
         CREATE TABLE IF NOT EXISTS Votes(
-            id INT primary key AUTOINCREMENT not null,
+            id INTEGER primary key AUTOINCREMENT not null,
             topic VARCHAR(64),
             choice_name VARCHAR(50),
             choice_count INT,
