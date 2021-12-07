@@ -8,6 +8,7 @@ class VoteDB:
         # เรียกใช้ function create table
         self.create_table()
     def create_table(self):
+        #AUTOINCREMENT คือ add id auto
         create_topic_query = """
         CREATE TABLE IF NOT EXISTS Topics (
          id VARCHAR(64) primary key not null,
@@ -15,7 +16,7 @@ class VoteDB:
         );"""
         create_vote_query = """
         CREATE TABLE IF NOT EXISTS Votes(
-            id VARCHAR(64) primary key not null,
+            id INT primary key not null AUTOINCREMENT,
             topic VARCHAR(64),
             choice_name VARCHAR(50),
             choice_count INT,
@@ -91,4 +92,9 @@ class VoteDB:
         return ret,topic_name
     
     def add_choice(self, choice_name, topic_id):
-        
+        query = """
+        INSERT INTO Votes (topic, choice_name, choice_count)
+        VALUES (?, ?, ?)
+        """
+        self.conn.execute(query, (topic_id,choice_name,0))
+        self.conn.commit()
