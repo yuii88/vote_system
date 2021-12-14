@@ -6,7 +6,7 @@
         <h1>Vote App</h1>
         <button onclick="document.location='/newTopic'">Add Topic</button>
         {% for data in topics %}
-        <li><a href="/topic/{{data['topic_id']}}">{{data['topic_name']}}</a></li>
+        <li><a href="/topic/{{data.id}}">{{data.name}}</a></li>
         {% endfor %}
     </body>
 </html>

@@ -1,10 +1,10 @@
 <html>
     <head>
-        <title>Topic {{topic_name}}</title>
+        <title>Topic {{topic.name}}</title>
         <link rel="stylesheet" type="text/css" href="../static/index.css">
     </head>
     <body>
-        <a href="/"><</a><h1>Vote for {{topic_name}}</h1>
+        <a href="/"><</a><h1>Vote for {{topic.name}}</h1>
         <form action="/topic/{{topic_id}}/newChoice" method="post">
             <label for="{{choice_name}}">New Choice</label>
             <input type="text" id="choice_name" name="choice_name">
@@ -17,14 +17,14 @@
                 <th>Vote</th>
                 <th>Action</th>
             </tr>
-            {% for cid, choice_name, count in topic %}
+            {% for v in votes %}
             <tr>
                 <td>{{loop.index}}</td>
-                <td>{{choice_name}}</td>
-                <td>{{count}}</td>
+                <td>{{v.choice_name}}</td>
+                <td>{{v.choice_count}}</td>
                 <td>
-                    <form action="/topic/{{topic_id}}/vote" method="post">
-                        <input type="hidden" name="choice" id="choice" value="{{cid}}">
+                    <form action="/topic/{{topic.id}}/vote" method="post">
+                        <input type="hidden" name="choice_name" id="choice" value="{{v.choice_name}}">
                         <button type="submit">Vote</button>
                     </form>
                 </td>

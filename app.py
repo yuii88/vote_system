@@ -2,35 +2,20 @@ from flask import Flask, render_template, request,redirect
 from collections import defaultdict
 from uuid import uuid4
 from db import VoteDB
+from model import db, Votes, Topics
 
 app = Flask(__name__)
-db = VoteDB()
-
-# topics = dict({
-#     'abc1234': { # topic_id, dictionary key
-#         'name': 'Hotel for holiday',
-#         'data': {
-#             'Hotel A': 0,
-#             'Hotel B': 1
-#         }
-#     }
-# })
 
 @app.route('/')
 def index():
-    topics = db.get_topic_names()
+    topics = list(Topics.select()) # SELECT *
     return render_template('index.html',topics=topics)
 
 @app.route('/addTopic', methods=['POST'])
 def add_new_topic():
     topic_id = str(uuid4())
     name = request.form.get('name')
-    db.add_topic(topic_name=name)
-    # topics[topic_id] ={
-    #     'name': name,
-    #     'data': defaultdict(int)
-    # }
-    #print(topic_id,name)
+    Topics.create(id=topic_id, name=name)
     return redirect('/')
     
 
@@ -40,23 +25,26 @@ def new_topic():
 
 @app.route('/topic/<topic_id>')
 def get_topic_page(topic_id):
-    topic_data,topic_name = db.get_topic(topic_id)
-    print(topic_data)
-    return render_template('topic.html',topic_id=topic_id,topic=topic_data,topic_name=topic_name)
+    topic = list(Topics.select().where(Topics.id == topic_id)) 
+    print(topic)
+    votes = list(Votes.select().where(Votes.topic == topic[0])) 
+    return render_template('topic.html',topic_id=topic_id,topic=topic[0],votes=votes)
 
-@app.route('/topic/<topic_id>/newChoice', methods=["POST"])
-def new_choice(topic_id):
-    cname = request.form.get('choice_name')
-    db.add_choice(choice_name=cname, topic_id=topic_id)
-    #print(cname)
-    return redirect(f'/topic/{topic_id}')
+# @app.route('/topic/<topic_id>/newChoice', methods=["POST"])
+# def new_choice(topic_id):
+#     cname = request.form.get('choice_name')
+#     db.add_choice(choice_name=cname, topic_id=topic_id)
+#     #print(cname)
+#     return redirect(f'/topic/{topic_id}')
 
-@app.route('/topic/<topic_id>/vote', methods=["POST"])
-def vote_topic(topic_id):
-    choice_id = request.form.get('choice')
-    db.vote(choice_id=choice_id, topic_id=topic_id)
-    return redirect(f'/topic/{topic_id}')
+# @app.route('/topic/<topic_id>/vote', methods=["POST"])
+# def vote_topic(topic_id):
+#     choice_id = request.form.get('choice')
+#     db.vote(choice_id=choice_id, topic_id=topic_id)
+#     return redirect(f'/topic/{topic_id}')
 
 
 if __name__ == '__main__':
+    db.connect()
+    db.create_tables([Topics, Votes])
     app.run("0.0.0.0,5000")
