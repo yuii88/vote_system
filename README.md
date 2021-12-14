@@ -1,4 +1,4 @@
-# vote_system
+# vote_system (only backend) With Python Flask
 ## Functional Requirements
 - [x] The System can Add new Topic.
 - [x] The system can Add new choice.
