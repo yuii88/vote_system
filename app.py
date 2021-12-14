@@ -26,16 +26,15 @@ def new_topic():
 @app.route('/topic/<topic_id>')
 def get_topic_page(topic_id):
     topic = list(Topics.select().where(Topics.id == topic_id)) 
-    print(topic)
+    #print(topic)
     votes = list(Votes.select().where(Votes.topic == topic[0])) 
     return render_template('topic.html',topic_id=topic_id,topic=topic[0],votes=votes)
 
-# @app.route('/topic/<topic_id>/newChoice', methods=["POST"])
-# def new_choice(topic_id):
-#     cname = request.form.get('choice_name')
-#     db.add_choice(choice_name=cname, topic_id=topic_id)
-#     #print(cname)
-#     return redirect(f'/topic/{topic_id}')
+@app.route('/topic/<topic_id>/newChoice', methods=["POST"])
+def new_choice(topic_id):
+    cname = request.form.get('choice_name')
+    Votes.create(topic=Topics.get_by_id(topic_id),choice_name=cname)
+    return redirect(f'/topic/{topic_id}')
 
 # @app.route('/topic/<topic_id>/vote', methods=["POST"])
 # def vote_topic(topic_id):
