@@ -1,6 +1,6 @@
 # vote_system
 ## Functional Requirements
-- [o] The System can Add new Topic.
-- [ ] The system can Add new choice.
-- [ ] The system can Vote choice.
-- [ ] The system has Database
+- [x] The System can Add new Topic.
+- [x] The system can Add new choice.
+- [x] The system can Vote choice.
+- [x] The system has Database
