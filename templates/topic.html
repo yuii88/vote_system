@@ -24,7 +24,7 @@
                 <td>{{v.choice_count}}</td>
                 <td>
                     <form action="/topic/{{topic.id}}/vote" method="post">
-                        <input type="hidden" name="choice_name" id="choice" value="{{v.choice_name}}">
+                        <input type="hidden" name="choice" id="choice" value="{{v.id}}">
                         <button type="submit">Vote</button>
                     </form>
                 </td>

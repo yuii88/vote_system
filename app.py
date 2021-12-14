@@ -36,11 +36,12 @@ def new_choice(topic_id):
     Votes.create(topic=Topics.get_by_id(topic_id),choice_name=cname)
     return redirect(f'/topic/{topic_id}')
 
-# @app.route('/topic/<topic_id>/vote', methods=["POST"])
-# def vote_topic(topic_id):
-#     choice_id = request.form.get('choice')
-#     db.vote(choice_id=choice_id, topic_id=topic_id)
-#     return redirect(f'/topic/{topic_id}')
+@app.route('/topic/<topic_id>/vote', methods=["POST"])
+def vote_topic(topic_id):
+    choice_id = request.form.get('choice')
+    query = Votes.update(choice_count = Votes.choice_count+1).where(Votes.id == choice_id)
+    query.execute()
+    return redirect(f'/topic/{topic_id}')
 
 
 if __name__ == '__main__':
